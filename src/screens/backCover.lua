@@ -1,6 +1,7 @@
 local composer = require("composer")
 local const = require("src.const")
 local arrow = require("src.components.arrow")
+local sound = require("src.components.sound")
 local button = require("src.components.button")
 local information = require("src.components.information")
 local scene = composer.newScene()
@@ -63,6 +64,11 @@ function scene:create(event)
 
     objects.information = information.init("src/assets/instructions.png", "src/assets/backCover/interaction.png")
     sceneGroup:insert(objects.information)
+
+    objects.soundActive, objects.soundDesactive = sound.init()
+
+    sceneGroup:insert(objects.soundActive)
+    sceneGroup:insert(objects.soundDesactive)
 end
 
 function scene:show(event)

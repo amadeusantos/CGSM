@@ -1,30 +1,29 @@
-local sound = {}
+local Sound = {}
 local const = require("src.const")
-sound.activeImage = display.newImage("src/assets/sound.png")
-sound.desactiveImage = display.newImage("src/assets/no_sound.png")
+Sound.x = const.WIDTH * (11 / 12)
+Sound.y = const.HEIGHT * (1 / 32)
 
-sound.x = const.WIDTH * (11 / 12)
-sound.y = const.HEIGHT * (1 / 32)
 
-sound.active = true
-sound.activeImage.isVisible = true
-sound.desactiveImage.isVisible = false
-sound.id = "sound"
-sound.activeImage.x = sound.x
-sound.activeImage.y = sound.y
-sound.desactiveImage.x = sound.x
-sound.desactiveImage.y = sound.y
+function Sound.init()
+    local activeImage = display.newImage("src/assets/sound.png")
+    local desactiveImage = display.newImage("src/assets/no_sound.png")
 
-local function onObjectTouch(event)
-    if (event.phase == "ended") then
-        sound.activeImage.isVisible = not sound.active
-        sound.desactiveImage.isVisible = sound.active
-        sound.active = not sound.active
+    activeImage.isVisible = true
+    desactiveImage.isVisible = false
+
+    activeImage.x = Sound.x
+    activeImage.y = Sound.y
+    desactiveImage.x = Sound.x
+    desactiveImage.y = Sound.y
+    local function onObjectTouch(event)
+        activeImage.isVisible = not activeImage.isVisible
+        desactiveImage.isVisible = not activeImage.isVisible
+        return true
     end
+    activeImage:addEventListener("tap", onObjectTouch)
+    desactiveImage:addEventListener("tap", onObjectTouch)
 
-    return true
+    return activeImage, desactiveImage
 end
-sound.activeImage:addEventListener("touch", onObjectTouch)
-sound.desactiveImage:addEventListener("touch", onObjectTouch)
 
-return sound
+return Sound

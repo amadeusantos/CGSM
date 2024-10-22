@@ -1,5 +1,6 @@
 local composer = require("composer")
 local arrow = require("src.components.arrow")
+local sound = require("src.components.sound")
 local information = require("src.components.information")
 local const = require("src.const")
 local scene = composer.newScene()
@@ -31,6 +32,11 @@ function scene:create(event)
 
     objects.next = arrow.init(const.WIDTH * (9 / 10), const.HEIGHT * (15 / 16), nextPage, 0)
     sceneGroup:insert(objects.next)
+
+    objects.soundActive, objects.soundDesactive = sound.init()
+
+    sceneGroup:insert(objects.soundActive)
+    sceneGroup:insert(objects.soundDesactive)
 end
 
 function scene:show(event)
