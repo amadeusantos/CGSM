@@ -54,7 +54,6 @@ function Scene01.init()
     objects.cornEnd.y = const.HEIGHT * (15 / 20)
     objects.cornEnd.isVisible = false
     local group = display.newGroup()
-    -- Runtime:addEventListener("accelerometer", shake)
 
     for _, object in pairs(objects) do
         group:insert(object)
