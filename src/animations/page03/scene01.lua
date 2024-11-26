@@ -80,6 +80,7 @@ function Scene01.init()
     objects.grafenoFull = display.newImage("src/assets/page_03/grafeno_full.png")
     objects.grafenoFull.x = const.WIDTH / 2
     objects.grafenoFull.y = const.HEIGHT + 150
+    objects.grafenoFull.isVisible = false
 
     joint.links1 = physics.newJoint("distance", objects.grafeno_2, objects.grafeno_3, const.WIDTH / 2 + 25,
         const.HEIGHT * (13 / 17), const.WIDTH / 2, const.HEIGHT * (13 / 17) + 60)
@@ -163,6 +164,8 @@ function Scene01.reset()
     objects.links_2.y = const.HEIGHT * (13 / 17) - 35
     objects.links_2.isVisible = true
 
+    objects.grafenoFull.isVisible = false
+
     objects.grafeno_2:setLinearVelocity(0, 0)
     objects.grafeno_3:setLinearVelocity(0, 0)
 end
@@ -183,6 +186,7 @@ local function rotationLinks(event)
 
     if objects.grafeno_1.y > const.HEIGHT + 100 and objects.grafenoFull.y >= (const.HEIGHT * (7 / 10) + 50) then
         objects.grafenoFull.y = objects.grafenoFull.y - 5
+        objects.grafenoFull.isVisible = true
     end
 end
 

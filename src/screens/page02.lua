@@ -57,7 +57,6 @@ end
 function scene:hide(event)
     local phase = event.phase
     audio.reset()
-    animation.hide()
     if (phase == "will") then
         -- Code here runs when the scene is on screen (but is about to go off screen)
     end

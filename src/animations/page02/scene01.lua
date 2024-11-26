@@ -37,26 +37,21 @@ local function onTouch(event)
                 objects.zoom:setFrame(objects.zoom.frame + scale)
             else
                 objects.zoom:setFrame(312)
+                objects.motion.isVisible = false
             end
 
             initialDistance = currentDistance
         end
     elseif event.phase == "ended" or event.phase == "cancelled" then
-        if event.id == finger1.id then
+        if finger1 and event.id == finger1.id then
             finger1 = nil
-        elseif event.id == finger2.id then
+        elseif finger2 and event.id == finger2.id then
             finger2 = nil
         end
 
         if not finger1 or not finger2 then
             isZooming = false
         end
-
-        -- if extractionDevice.width > 300 then
-        --     extractionDevice.isVisible = false
-        --     deviceScreen.isVisible = true
-
-        -- end
     end
     return true
 end
@@ -71,43 +66,27 @@ function Scene01.loadCarga()
     sheet = graphics.newImageSheet("src/assets/page_02/zoom.png", sheetOptions)
 end
 
-function Scene01.hide()
-    Runtime:removeEventListener("touch", onTouch)
-end
-
 function Scene01.init()
-    -- local sequenceData =
-    -- {
-    --     {
-    --         name = "camera",
-    --         start = 1,
-    --         time = 800,
-    --         loopCount = 0,
-    --         loopDirection = "forward"
-    --     },
-    --     { name = "scanner", frames = { 3, 4, 5, 6, 7, 8 }, time = 120, loopCount = 4 },
-    --     { name = "nanomemeter", start = 9,                     count = 13, time = 300 }
-    -- }
-
     objects.zoom = display.newSprite(sheet, {
-        name = "teste",
+        name = "run",
         start = 1,
         count = 312,
         time = 800,
         loopCount = 0,
         loopDirection = "forward"
     })
-    Runtime:addEventListener("touch", onTouch)
+
+    objects.zoom:addEventListener("touch", onTouch)
 
     objects.zoom.x = const.WIDTH / 2
     objects.zoom.y = const.HEIGHT * (15 / 20)
     objects.zoom.xScale = 0.75
     objects.zoom.yScale = 0.75
 
+    objects.motion = display.newImage("src/assets/page_02/motion.png")
+    objects.motion.x = const.WIDTH / 8
+    objects.motion.y = const.HEIGHT * (17 / 20)
     objects.zoom:setFrame(1)
-    -- objects.zoom:setSequence("teste")
-    -- objects.zoom:play()
-
 
     local group = display.newGroup()
 
@@ -115,13 +94,12 @@ function Scene01.init()
         group:insert(object)
     end
 
-    -- objects.cornInitial:addEventListener("tap", teste)
-
     return group
 end
 
 function Scene01.reset()
     objects.zoom:setFrame(1)
+    objects.motion.isVisible = true
     finger1 = nil
     finger2 = nil
     initialDistance = nil
