@@ -1,7 +1,12 @@
 local composer = require("composer")
 local const = require("src.const")
-local arrow = require("src.components.arrow")
+local button = require("src.components.button")
+local animation = require("src.animations.page03.scene01")
+local information = require("src.components.information")
+local sound = require("src.components.sound")
 local scene = composer.newScene()
+
+local audio = {}
 
 local function previousPage(event)
     composer.gotoScene("src.screens.page02", "fade")
@@ -14,8 +19,9 @@ end
 function scene:create(event)
     local objects = {}
     local sceneGroup = self.view
-    objects.next = arrow.init(const.WIDTH * (9 / 10), const.HEIGHT * (15 / 16), nextPage, 0)
-    objects.rollback = arrow.init(const.WIDTH * (1 / 10), const.HEIGHT * (15 / 16), previousPage, 180)
+    objects.next = button.init("src/assets/next_page.png", const.WIDTH * (9 / 10), const.HEIGHT * (15 / 16), nextPage)
+    objects.rollback = button.init("src/assets/previous_page.png", const.WIDTH * (1 / 10), const.HEIGHT * (15 / 16),
+        previousPage)
     sceneGroup:insert(objects.next)
     sceneGroup:insert(objects.rollback)
 
@@ -23,9 +29,26 @@ function scene:create(event)
     objects.page.x = const.WIDTH * (1 / 2)
     objects.page.y = const.HEIGHT * (15 / 16)
     sceneGroup:insert(objects.page)
+
+    objects.information = information.init("src/assets/instructions.png", "src/assets/page_03/interaction.png")
+    sceneGroup:insert(objects.information)
+
+    audio = sound.init("src/assets/page_03/audio.mp3")
+
+    sceneGroup:insert(audio)
+
+    objects.text = display.newImage("src/assets/page_03/text.png")
+    objects.text.x = const.WIDTH * (1 / 2)
+    objects.text.y = (const.HEIGHT * (1 / 32)) + (objects.text.width / 2)
+    sceneGroup:insert(objects.text)
+
+    local objectsAnimations = animation.init()
+
+    sceneGroup:insert(objectsAnimations)
 end
 
 function scene:show(event)
+    animation.reset()
     local phase = event.phase
 
     if (phase == "did") then
@@ -35,7 +58,7 @@ end
 
 function scene:hide(event)
     local phase = event.phase
-
+    audio.reset()
     if (phase == "will") then
         -- Code here runs when the scene is on screen (but is about to go off screen)
     end

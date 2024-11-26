@@ -1,10 +1,11 @@
 local composer = require("composer")
 local const = require("src.const")
-local arrow = require("src.components.arrow")
 local sound = require("src.components.sound")
 local button = require("src.components.button")
 local information = require("src.components.information")
 local scene = composer.newScene()
+
+local audio = {}
 
 local function previousPage(event)
     composer.gotoScene("src.screens.page06", "fade")
@@ -59,16 +60,15 @@ function scene:create(event)
         const.HEIGHT * (12 / 13), frontPage)
     sceneGroup:insert(objects.frontPageButton)
 
-    objects.rollback = arrow.init(const.WIDTH * (1 / 10), const.HEIGHT * (15 / 16), previousPage, 180)
+    objects.rollback = button.init("src/assets/previous_page.png", const.WIDTH * (1 / 10), const.HEIGHT * (15 / 16), previousPage)
     sceneGroup:insert(objects.rollback)
 
     objects.information = information.init("src/assets/instructions.png", "src/assets/backCover/interaction.png")
     sceneGroup:insert(objects.information)
 
-    objects.soundActive, objects.soundDesactive = sound.init()
+    audio = sound.init("src/assets/backCover/audio.mp3")
 
-    sceneGroup:insert(objects.soundActive)
-    sceneGroup:insert(objects.soundDesactive)
+    sceneGroup:insert(audio)
 end
 
 function scene:show(event)
@@ -81,7 +81,7 @@ end
 
 function scene:hide(event)
     local phase = event.phase
-
+    audio.reset()
     if (phase == "will") then
         -- Code here runs when the scene is on screen (but is about to go off screen)
     end
