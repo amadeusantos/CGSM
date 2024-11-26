@@ -69,4 +69,8 @@ function Scene01.reset()
     Runtime:addEventListener("accelerometer", shake)
 end
 
+function Scene01.hide()
+    Runtime:removeEventListener("accelerometer", shake)
+end
+
 return Scene01

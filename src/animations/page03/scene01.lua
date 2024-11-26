@@ -90,7 +90,7 @@ function Scene01.init()
     objects.scissors.y = const.HEIGHT * (5 / 7)
     objects.scissors:addEventListener("touch", onDragMove)
     physics.addBody(objects.scissors, "static",
-        { density = 1.0, friction = 0.5, bounce = 0.3, isSensor = true, radius = 10 })
+        { density = 1.0, friction = 0.5, bounce = 0.3, isSensor = true, radius = 15 })
     objects.scissors.collision = collision1
     objects.scissors:addEventListener("collision")
 
@@ -100,7 +100,7 @@ function Scene01.init()
     objects.scissors2.isVisible = false
     objects.scissors2:addEventListener("touch", onDragMove)
     physics.addBody(objects.scissors2, "static",
-        { density = 1.0, friction = 0.5, bounce = 0.3, isSensor = true, radius = 10 })
+        { density = 1.0, friction = 0.5, bounce = 0.3, isSensor = true, radius = 15 })
     objects.scissors2.collision = collision2
     objects.scissors2:addEventListener("collision")
 
